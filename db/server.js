@@ -14,17 +14,17 @@ app.use(express.static('public'));
 
 // Route to serve notes.html
 app.get('/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, 'develop','public', 'notes.html'));
+    res.sendFile(path.join(__dirname, 'public', 'notes.html'));
 });
 
 // Route to serve index.html for all other routes
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'develop', 'public','index.html'));
+    res.sendFile(path.join(__dirname, 'public','index.html'));
 });
 
 // Route to read db.json and return all notes
 app.get('/api/notes', (req, res) => {
-    fs.readFile(path.join(__dirname, 'develop', 'db', 'db.json'), 'utf8', (err, data) => {
+    fs.readFile(path.join(__dirname,  'db', 'db.json'), 'utf8', (err, data) => {
         if (err) {
             console.error(err);
             res.status(500).json({ error: 'Failed to read data from db.json' });
@@ -48,7 +48,7 @@ app.post('/api/notes', (req, res) => {
         return;
     }
 
-    fs.readFile(path.join(__dirname, 'develop','db','db.json'), 'utf8', (err, data) => {
+    fs.readFile(path.join(__dirname, 'db','db.json'), 'utf8', (err, data) => {
         if (err) {
             console.error(err);
             res.status(500).json({ error: 'Failed to read data from db.json' });
@@ -65,7 +65,7 @@ app.post('/api/notes', (req, res) => {
             notes.push(newNote);
 
             // Write updated notes array back to db.json
-            fs.writeFile(path.join(__dirname, 'develop','db', 'db.json'), JSON.stringify(notes), (err) => {
+            fs.writeFile(path.join(__dirname, 'db', 'db.json'), JSON.stringify(notes), (err) => {
                 if (err) {
                     console.error(err);
                     res.status(500).json({ error: 'Failed to write data to db.json' });
